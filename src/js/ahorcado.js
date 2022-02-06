@@ -90,7 +90,11 @@ function pintarEspacios(palabra) {
   });
 }
 
-function pintarLineaLetra(palabra, letraXDesde, letraYHasta, positionY) {
+function pintarLineaLetra(palabra) {
+  let letraXDesde = 340;
+  let letraYHasta = 380;
+  let positionY = 760;
+
   posicionLetras = [];
   for (let i = 0; i < palabra.length; i++) {
     const letra = palabra[i];
@@ -148,9 +152,10 @@ function comprobarPalabraOculta() {
   }
 }
 
-function jugar() {
+function reiniciarJuego() {
   INPUTWORDNEW.setAttribute("disabled", "true");
   INPUTWORDNEW.setAttribute("title", "Deshabilitado, estas jugando");
+  document.getElementById("mensaje-canvas").innerHTML = "";
   clearPizarra(); //limpiar canvas
   iniciarPizarra(); //iniciar pizarra
   puedeJugar = true;
@@ -158,24 +163,33 @@ function jugar() {
   letrasAcertadas = "";
   cantidadIntentos = 0;
   posicionLetraPresionada = 640;
+  totalTime = 3;
+}
+let totalTime = 3;
+function updateClock() {
+  document.getElementById(
+    "mensaje-canvas"
+  ).innerHTML = `Reiniciando juego en: ${totalTime}!`;
+  if (totalTime == 0) {
+    jugar();
+  } else {
+    totalTime -= 1;
 
+    setTimeout("updateClock()", 1000);
+  }
+}
+
+function jugar() {
+  reiniciarJuego();
   //desde donde se pintara la primera palabra
   //debe iniciar desde x 350 y=760 hasta x=750 y=760 esto le da un tamaño de 59px
-  let letraXDesde = 340;
-  let letraYHasta = 380;
-  let positionY = 760;
-  let widthLinea = grosoLinea - 10;
 
+  //seleccionar palabra oculta aleatoriamente
   palabraAleatoria = seleccionarPalabra();
 
+  //
   pintarEspacios(posicionLetras);
-  pintarLineaLetra(
-    palabraAleatoria,
-    letraXDesde,
-    letraYHasta,
-    positionY,
-    widthLinea
-  );
+  pintarLineaLetra(palabraAleatoria);
 
   //escuchar evento del teclado
 }
@@ -254,11 +268,17 @@ document.addEventListener("keyup", function (e) {
     INPUTWORDNEW.removeAttribute("disabled");
     INPUTWORDNEW.removeAttribute("title");
 
+    pintarMensajeFinal(`La palabra secreta era: ${palabraAleatoria}`, 600, 520);
+
     puedeJugar = false;
   } else if (result == "gano") {
     pintarMensajeFinal("Ganaste \n Felicidades!", 800, 320);
     INPUTWORDNEW.removeAttribute("disabled");
     INPUTWORDNEW.removeAttribute("title");
     puedeJugar = false;
+  }
+
+  if (!puedeJugar) {
+    updateClock();
   }
 });
