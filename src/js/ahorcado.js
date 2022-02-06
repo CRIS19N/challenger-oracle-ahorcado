@@ -278,7 +278,9 @@ document.addEventListener("keyup", function (e) {
     puedeJugar = false;
   }
 
-  if (!puedeJugar) {
-    updateClock();
+  if (result == "perdio" || result == "gano") {
+    if (totalTime == 3) {
+      updateClock();
+    }
   }
 });
