@@ -151,10 +151,10 @@ function comprobarPalabraOculta() {
     puedeJugar = false;
   }
 }
-const BTNWORDNEW = document.getElementById("nueva-palabra");
+const INPUTOCULTO = document.getElementById("abrir-teclado");
 
 function reiniciarJuego() {
-  BTNWORDNEW.focus();
+  INPUTOCULTO.focus();
   INPUTWORDNEW.setAttribute("disabled", "true");
   INPUTWORDNEW.setAttribute("title", "Deshabilitado, estas jugando");
   document.getElementById("mensaje-canvas").innerHTML = "";
