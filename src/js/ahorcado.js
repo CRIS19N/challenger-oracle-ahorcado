@@ -180,6 +180,7 @@ function updateClock() {
 }
 
 function jugar() {
+  INPUTWORDNEW.value = "";
   reiniciarJuego();
   //desde donde se pintara la primera palabra
   //debe iniciar desde x 350 y=760 hasta x=750 y=760 esto le da un tamaño de 59px
@@ -193,6 +194,14 @@ function jugar() {
 
   //escuchar evento del teclado
 }
+function terminarJuego() {
+  clearPizarra(); //limpiar canvas
+  iniciarPizarra(); //iniciar pizarra
+  INPUTWORDNEW.removeAttribute("disabled");
+  INPUTWORDNEW.removeAttribute("title");
+  INPUTWORDNEW.value = "";
+  puedeJugar = false;
+}
 //agregar nueva palabra
 const BTNWORDNEW = document.getElementById("nueva-palabra");
 BTNWORDNEW.onclick = newWord;
@@ -201,8 +210,14 @@ BTNWORDNEW.onclick = newWord;
 const BTNPLAY = document.getElementById("iniciar-juego");
 BTNPLAY.onclick = jugar;
 
+//btn terminar Juego
+const BTNFINJUEGO = document.getElementById("terminar-juego");
+BTNFINJUEGO.onclick = terminarJuego;
+
 //INPUT nueva palabra
 const INPUTWORDNEW = document.getElementById("input-nueva-palabra");
+
+//leer teclado
 document.addEventListener("keyup", function (e) {
   if (puedeJugar) {
     let letraPresionada = e.key.toLocaleUpperCase();
